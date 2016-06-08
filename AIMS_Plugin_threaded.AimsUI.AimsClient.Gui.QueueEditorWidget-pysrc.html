@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;AIMS_Plugin_threaded ::
+        Package&nbsp;AimsUI ::
+        Package&nbsp;AimsClient ::
+        <a href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui-module.html">Package&nbsp;Gui</a> ::
+        Module&nbsp;QueueEditorWidget
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget-module.html">Module AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">################################################################################</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-comment"># Copyright 2015 Crown copyright (c)</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-comment"># Land Information New Zealand and the New Zealand Government.</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-comment"># All rights reserved</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-comment"># This program is released under the terms of the 3 clause BSD license. See the </tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-comment"># LICENSE file for more information.</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-comment">################################################################################</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">re</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">PyQt4</tt><tt class="py-op">.</tt><tt class="py-name">QtCore</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">PyQt4</tt><tt class="py-op">.</tt><tt class="py-name">QtGui</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Module AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget-module.html,Class AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget-class.html"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget" class="py-name" href="#" onclick="return doclink('link-0', 'Ui_QueueEditorWidget', 'link-0');">Ui_QueueEditorWidget</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget" class="py-name" href="#" onclick="return doclink('link-1', 'Ui_QueueEditorWidget', 'link-0');">Ui_QueueEditorWidget</a></tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Module AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility-module.html,Class AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility-class.html"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility" class="py-name" href="#" onclick="return doclink('link-2', 'UiUtility', 'link-2');">UiUtility</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility" class="py-name" href="#" onclick="return doclink('link-3', 'UiUtility', 'link-2');">UiUtility</a></tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="QueueEditorWidget"></a><div id="QueueEditorWidget-def"><a name="L20"></a><tt class="py-lineno">20</tt> <a class="py-toggle" href="#" id="QueueEditorWidget-toggle" onclick="return toggle('QueueEditorWidget');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html">QueueEditorWidget</a><tt class="py-op">(</tt> <tt class="py-base-class">Ui_QueueEditorWidget</tt><tt class="py-op">,</tt> <tt class="py-base-class">QWidget</tt> <tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="QueueEditorWidget-expanded"><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt id="link-4" class="py-name" targets="Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.warningStyle=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#warningStyle"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.warningStyle" class="py-name" href="#" onclick="return doclink('link-4', 'warningStyle', 'link-4');">warningStyle</a></tt> <tt class="py-op">=</tt> <tt class="py-string">"* { color : red; font-weight: bold }"</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
+<a name="QueueEditorWidget.__init__"></a><div id="QueueEditorWidget.__init__-def"><a name="L24"></a><tt class="py-lineno">24</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.__init__-toggle" onclick="return toggle('QueueEditorWidget.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#__init__">__init__</a><tt class="py-op">(</tt> <tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parent</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">controller</tt><tt class="py-op">=</tt><tt class="py-name">None</tt> <tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QueueEditorWidget.__init__-expanded"><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-name">QWidget</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.AimsQueueWidget.AimsQueueWidget.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.AimsQueueWidget.AimsQueueWidget-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DictionaryList.DictionaryListModel.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DictionaryList.DictionaryListModel-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DictionaryList.DictionaryListView.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DictionaryList.DictionaryListView-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DockWindow.DockWindow.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DockWindow.DockWindow-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.FeatureHighlighter.FeatureHighlighter.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.FeatureHighlighter.FeatureHighlighter-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.FeatureTableModel.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.FeatureTableModel-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.GroupTableModel.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.GroupTableModel-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.QueueView.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.QueueView-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.DMData.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.DMData-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.DMObserver.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.DMObserver-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.Listener.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.Listener-class.html#__init__,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.__init__()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager-class.html#__init__"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.AimsQueueWidget.AimsQueueWidget.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DictionaryList.DictionaryListModel.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DictionaryList.DictionaryListView.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.DockWindow.DockWindow.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.FeatureHighlighter.FeatureHighlighter.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.FeatureTableModel.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.GroupTableModel.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueModelView.QueueView.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.DMData.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.DMObserver.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.Listener.__init__
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.__init__" class="py-name" href="#" onclick="return doclink('link-5', '__init__', 'link-5');">__init__</a></tt><tt class="py-op">(</tt> <tt class="py-name">self</tt><tt class="py-op">,</tt> <tt class="py-name">parent</tt> <tt class="py-op">)</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_AimsQueueWidget.Ui_AimsQueueWidget.setupUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_AimsQueueWidget.Ui_AimsQueueWidget-class.html#setupUi,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_ComfirmSelection.Ui_ComfirmSelection.setupUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_ComfirmSelection.Ui_ComfirmSelection-class.html#setupUi,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_EditFeatureDialog.Ui_EditFeatureDialog.setupUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_EditFeatureDialog.Ui_EditFeatureDialog-class.html#setupUi,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_LineageDialog.Ui_LineageDialog.setupUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_LineageDialog.Ui_LineageDialog-class.html#setupUi,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget.setupUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget-class.html#setupUi,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_ReviewQueueWidget.Ui_ReviewQueueWidget.setupUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_ReviewQueueWidget.Ui_ReviewQueueWidget-class.html#setupUi"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_AimsQueueWidget.Ui_AimsQueueWidget.setupUi
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_ComfirmSelection.Ui_ComfirmSelection.setupUi
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_EditFeatureDialog.Ui_EditFeatureDialog.setupUi
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_LineageDialog.Ui_LineageDialog.setupUi
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_QueueEditorWidget.Ui_QueueEditorWidget.setupUi
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Ui_ReviewQueueWidget.Ui_ReviewQueueWidget.setupUi" class="py-name" href="#" onclick="return doclink('link-6', 'setupUi', 'link-6');">setupUi</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">feature</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">        <tt class="py-comment">#self.uiToObjMappings = self.formObjMappings() &lt; -- redundant? 4/3/16</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt id="link-7" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility" class="py-name" href="#" onclick="return doclink('link-7', 'UiUtility', 'link-2');">UiUtility</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Static Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.setFormCombos()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility-class.html#setFormCombos"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.setFormCombos" class="py-name" href="#" onclick="return doclink('link-8', 'setFormCombos', 'link-8');">setFormCombos</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uGetRclToolButton</tt><tt class="py-op">.</tt><tt class="py-name">clicked</tt><tt class="py-op">.</tt><tt class="py-name">connect</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.getRcl()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget-class.html#getRcl,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.getRcl()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#getRcl"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.getRcl
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.getRcl" class="py-name" href="#" onclick="return doclink('link-9', 'getRcl', 'link-9');">getRcl</a></tt><tt class="py-op">)</tt>       </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uUpdatePosButton</tt><tt class="py-op">.</tt><tt class="py-name">clicked</tt><tt class="py-op">.</tt><tt class="py-name">connect</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.updatePosition()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#updatePosition"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.updatePosition" class="py-name" href="#" onclick="return doclink('link-10', 'updatePosition', 'link-10');">updatePosition</a></tt><tt class="py-op">)</tt>      </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.setController()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget-class.html#setController,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setController()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#setController,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.setController()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget-class.html#setController"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.setController
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setController
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.setController" class="py-name" href="#" onclick="return doclink('link-11', 'setController', 'link-11');">setController</a></tt><tt class="py-op">(</tt> <tt class="py-name">controller</tt> <tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uAddressType</tt><tt class="py-op">.</tt><tt class="py-name">currentIndexChanged</tt><tt class="py-op">.</tt><tt class="py-name">connect</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.setEditability()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget-class.html#setEditability,Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setEditability()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#setEditability,Static Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.setEditability()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility-class.html#setEditability"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.setEditability
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setEditability
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.setEditability" class="py-name" href="#" onclick="return doclink('link-12', 'setEditability', 'link-12');">setEditability</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setWarningColour()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#setWarningColour"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setWarningColour" class="py-name" href="#" onclick="return doclink('link-13', 'setWarningColour', 'link-13');">setWarningColour</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">         </tt>
+<a name="QueueEditorWidget.setController"></a><div id="QueueEditorWidget.setController-def"><a name="L36"></a><tt class="py-lineno">36</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.setController-toggle" onclick="return toggle('QueueEditorWidget.setController');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#setController">setController</a><tt class="py-op">(</tt> <tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">controller</tt> <tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget.setController-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QueueEditorWidget.setController-expanded"><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">import</tt> <tt id="link-14" class="py-name" targets="Module AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller-module.html,Class AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller-class.html"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller" class="py-name" href="#" onclick="return doclink('link-14', 'Controller', 'link-14');">Controller</a></tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">controller</tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-name">controller</tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller" class="py-name" href="#" onclick="return doclink('link-15', 'Controller', 'link-14');">Controller</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Function AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.instance()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller-module.html#instance"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.instance" class="py-name" href="#" onclick="return doclink('link-16', 'instance', 'link-16');">instance</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_controller</tt> <tt class="py-op">=</tt> <tt class="py-name">controller</tt> </tt>
+</div><a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">     </tt>
+<a name="QueueEditorWidget.setWarningColour"></a><div id="QueueEditorWidget.setWarningColour-def"><a name="L42"></a><tt class="py-lineno">42</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.setWarningColour-toggle" onclick="return toggle('QueueEditorWidget.setWarningColour');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#setWarningColour">setWarningColour</a><tt class="py-op">(</tt> <tt class="py-param">self</tt> <tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget.setWarningColour-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QueueEditorWidget.setWarningColour-expanded"><a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">        <tt class="py-name">style</tt> <tt class="py-op">=</tt> <tt class="py-string">""</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-name">style</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.warningStyle" class="py-name" href="#" onclick="return doclink('link-17', 'warningStyle', 'link-4');">warningStyle</a></tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uWarning</tt><tt class="py-op">.</tt><tt class="py-name">setStyleSheet</tt><tt class="py-op">(</tt><tt class="py-name">style</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">          </tt>
+<a name="QueueEditorWidget.currentFeatureToUi"></a><div id="QueueEditorWidget.currentFeatureToUi-def"><a name="L47"></a><tt class="py-lineno">47</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.currentFeatureToUi-toggle" onclick="return toggle('QueueEditorWidget.currentFeatureToUi');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#currentFeatureToUi">currentFeatureToUi</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">feature</tt> <tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget.currentFeatureToUi-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QueueEditorWidget.currentFeatureToUi-expanded"><a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">feature</tt> <tt class="py-op">=</tt> <tt class="py-name">feature</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">        <tt id="link-18" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility" class="py-name" href="#" onclick="return doclink('link-18', 'UiUtility', 'link-2');">UiUtility</a></tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Static Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.featureToUi()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility-class.html#featureToUi"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.featureToUi" class="py-name" href="#" onclick="return doclink('link-19', 'featureToUi', 'link-19');">featureToUi</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">     </tt>
+<a name="QueueEditorWidget.setEditability"></a><div id="QueueEditorWidget.setEditability-def"><a name="L51"></a><tt class="py-lineno">51</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.setEditability-toggle" onclick="return toggle('QueueEditorWidget.setEditability');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#setEditability">setEditability</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget.setEditability-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QueueEditorWidget.setEditability-expanded"><a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">        <tt id="link-20" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility" class="py-name" href="#" onclick="return doclink('link-20', 'UiUtility', 'link-2');">UiUtility</a></tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.EditFeatureWidget.EditFeatureWidget.setEditability
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget.setEditability
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.setEditability" class="py-name" href="#" onclick="return doclink('link-21', 'setEditability', 'link-12');">setEditability</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">    </tt>
+<a name="QueueEditorWidget.getRcl"></a><div id="QueueEditorWidget.getRcl-def"><a name="L54"></a><tt class="py-lineno">54</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.getRcl-toggle" onclick="return toggle('QueueEditorWidget.getRcl');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#getRcl">getRcl</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt>         </tt>
+</div><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_controller</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.startRclTool()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller-class.html#startRclTool"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.startRclTool" class="py-name" href="#" onclick="return doclink('link-22', 'startRclTool', 'link-22');">startRclTool</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">     </tt>
+<a name="QueueEditorWidget.updatePosition"></a><div id="QueueEditorWidget.updatePosition-def"><a name="L57"></a><tt class="py-lineno">57</tt> <a class="py-toggle" href="#" id="QueueEditorWidget.updatePosition-toggle" onclick="return toggle('QueueEditorWidget.updatePosition');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.QueueEditorWidget.QueueEditorWidget-class.html#updatePosition">updatePosition</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="QueueEditorWidget.updatePosition-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="QueueEditorWidget.updatePosition-expanded"><a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_controller</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.startUpdateReviewPosTool()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller-class.html#startUpdateReviewPosTool"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.startUpdateReviewPosTool" class="py-name" href="#" onclick="return doclink('link-23', 'startUpdateReviewPosTool', 'link-23');">startUpdateReviewPosTool</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">feature</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Jun  8 14:11:35 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

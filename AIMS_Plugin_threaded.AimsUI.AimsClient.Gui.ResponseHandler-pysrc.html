@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;AIMS_Plugin_threaded ::
+        Package&nbsp;AimsUI ::
+        Package&nbsp;AimsClient ::
+        <a href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui-module.html">Package&nbsp;Gui</a> ::
+        Module&nbsp;ResponseHandler
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler-module.html">Module AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">################################################################################</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-comment"># Copyright 2015 Crown copyright (c)</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-comment"># Land Information New Zealand and the New Zealand Government.</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-comment"># All rights reserved</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-comment"># This program is released under the terms of the 3 clause BSD license. See the </tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-comment"># LICENSE file for more information.</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-comment">################################################################################</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">qgis</tt><tt class="py-op">.</tt><tt class="py-name">core</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">qgis</tt><tt class="py-op">.</tt><tt class="py-name">gui</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">PyQt4</tt><tt class="py-op">.</tt><tt class="py-name">QtGui</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">time</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">AIMSDataManager</tt><tt class="py-op">.</tt><tt class="py-name">AddressFactory</tt> <tt class="py-keyword">import</tt> <tt class="py-name">AddressFactory</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">AIMSDataManager</tt><tt class="py-op">.</tt><tt class="py-name">Address</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Entity</tt><tt class="py-op">,</tt> <tt class="py-name">FeedType</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">AIMSDataManager</tt><tt class="py-op">.</tt><tt class="py-name">AimsUtility</tt> <tt class="py-keyword">import</tt> <tt class="py-name">FEEDS</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">AIMSDataManager</tt><tt class="py-op">.</tt><tt class="py-name">AimsLogging</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Logger</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller-class.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller-module.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler-module.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget-class.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget-module.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager-class.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager-module.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility-class.html#uilog,Variable AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.uilog=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility-module.html#uilog"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.uilog" class="py-name" href="#" onclick="return doclink('link-0', 'uilog', 'link-0');">uilog</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"> </tt>
+<a name="ResponseHandler"></a><div id="ResponseHandler-def"><a name="L24"></a><tt class="py-lineno">24</tt> <a class="py-toggle" href="#" id="ResponseHandler-toggle" onclick="return toggle('ResponseHandler');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html">ResponseHandler</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ResponseHandler-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="ResponseHandler-expanded"><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">     </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt class="py-comment"># logging</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-keyword">global</tt> <tt id="link-1" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.uilog" class="py-name" href="#" onclick="return doclink('link-1', 'uilog', 'link-0');">uilog</a></tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt id="link-2" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.uilog" class="py-name" href="#" onclick="return doclink('link-2', 'uilog', 'link-0');">uilog</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Logger</tt><tt class="py-op">.</tt><tt class="py-name">setup</tt><tt class="py-op">(</tt><tt class="py-name">lf</tt><tt class="py-op">=</tt><tt class="py-string">'uiLog'</tt><tt class="py-op">)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">     </tt>
+<a name="ResponseHandler.__init__"></a><div id="ResponseHandler.__init__-def"><a name="L30"></a><tt class="py-lineno">30</tt> <a class="py-toggle" href="#" id="ResponseHandler.__init__-toggle" onclick="return toggle('ResponseHandler.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">iface</tt><tt class="py-op">,</tt> <tt class="py-param">uidm</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ResponseHandler.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="ResponseHandler.__init__-expanded"><a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_iface</tt> <tt class="py-op">=</tt> <tt class="py-name">iface</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uidm</tt> <tt class="py-op">=</tt> <tt class="py-name">uidm</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">afar</tt><tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-name">ft</tt><tt class="py-op">:</tt><tt class="py-name">AddressFactory</tt><tt class="py-op">.</tt><tt class="py-name">getInstance</tt><tt class="py-op">(</tt><tt class="py-name">FEEDS</tt><tt class="py-op">[</tt><tt class="py-string">'AR'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">ft</tt> <tt class="py-keyword">in</tt> <tt class="py-name">FeedType</tt><tt class="py-op">.</tt><tt class="py-name">reverse</tt><tt class="py-op">}</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">afaf</tt><tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-name">ft</tt><tt class="py-op">:</tt><tt class="py-name">AddressFactory</tt><tt class="py-op">.</tt><tt class="py-name">getInstance</tt><tt class="py-op">(</tt><tt class="py-name">FEEDS</tt><tt class="py-op">[</tt><tt class="py-string">'AF'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">ft</tt> <tt class="py-keyword">in</tt> <tt class="py-name">FeedType</tt><tt class="py-op">.</tt><tt class="py-name">reverse</tt><tt class="py-op">}</tt> <tt class="py-comment"># new method to cast</tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="ResponseHandler.updateData"></a><div id="ResponseHandler.updateData-def"><a name="L36"></a><tt class="py-lineno">36</tt> <a class="py-toggle" href="#" id="ResponseHandler.updateData-toggle" onclick="return toggle('ResponseHandler.updateData');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#updateData">updateData</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">respObj</tt> <tt class="py-op">,</tt> <tt class="py-param">feedType</tt><tt class="py-op">,</tt> <tt class="py-param">action</tt><tt class="py-op">)</tt><tt class="py-op">:</tt><tt class="py-comment"># rather than action could monitor _queueStatus</tt> </tt>
+</div><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">hasattr</tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">,</tt> <tt class="py-string">'_changeGroupId'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">            <tt class="py-name">respObj</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">afar</tt><tt class="py-op">[</tt><tt class="py-name">FeedType</tt><tt class="py-op">.</tt><tt class="py-name">RESOLUTIONFEED</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">cast</tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">)</tt>   </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uidm</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateGdata()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager-class.html#updateGdata"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateGdata" class="py-name" href="#" onclick="return doclink('link-3', 'updateGdata', 'link-3');">updateGdata</a></tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">feedType</tt> <tt class="py-op">==</tt> <tt class="py-name">FEEDS</tt><tt class="py-op">[</tt><tt class="py-string">'AC'</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">            <tt class="py-name">respObj</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">afar</tt><tt class="py-op">[</tt><tt class="py-name">FeedType</tt><tt class="py-op">.</tt><tt class="py-name">RESOLUTIONFEED</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">cast</tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uidm</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateRdata()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager-class.html#updateRdata"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateRdata" class="py-name" href="#" onclick="return doclink('link-4', 'updateRdata', 'link-4');">updateRdata</a></tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">,</tt> <tt class="py-name">feedType</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">feedType</tt> <tt class="py-op">==</tt> <tt class="py-name">FEEDS</tt><tt class="py-op">[</tt><tt class="py-string">'AR'</tt><tt class="py-op">]</tt><tt class="py-op">:</tt><tt class="py-comment"># and action == 'accept':</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">            <tt class="py-name">respObj</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">afaf</tt><tt class="py-op">[</tt><tt class="py-name">FeedType</tt><tt class="py-op">.</tt><tt class="py-name">FEATURES</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">cast</tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">)</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uidm</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateRdata" class="py-name" href="#" onclick="return doclink('link-5', 'updateRdata', 'link-4');">updateRdata</a></tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">,</tt> <tt class="py-name">feedType</tt><tt class="py-op">)</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">action</tt> <tt class="py-op">==</tt> <tt class="py-string">'accept'</tt><tt class="py-op">:</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uidm</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateFdata()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager-class.html#updateFdata"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.updateFdata" class="py-name" href="#" onclick="return doclink('link-6', 'updateFdata', 'link-6');">updateFdata</a></tt><tt class="py-op">(</tt><tt class="py-name">respObj</tt><tt class="py-op">)</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">      </tt>
+<a name="ResponseHandler.displayWarnings"></a><div id="ResponseHandler.displayWarnings-def"><a name="L50"></a><tt class="py-lineno">50</tt> <a class="py-toggle" href="#" id="ResponseHandler.displayWarnings-toggle" onclick="return toggle('ResponseHandler.displayWarnings');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#displayWarnings">displayWarnings</a> <tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">warnings</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ResponseHandler.displayWarnings-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="ResponseHandler.displayWarnings-expanded"><a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-docstring">''' raise warning to the user '''</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">        <tt class="py-name">message</tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">warning</tt> <tt class="py-keyword">in</tt> <tt class="py-name">warnings</tt><tt class="py-op">:</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">            <tt class="py-name">message</tt> <tt class="py-op">+=</tt> <tt class="py-string">u'\u2022 {}\n'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">warning</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt class="py-name">QMessageBox</tt><tt class="py-op">.</tt><tt class="py-name">warning</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_iface</tt><tt class="py-op">.</tt><tt class="py-name">mainWindow</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-string">"AIMS Warnings"</tt><tt class="py-op">,</tt> <tt class="py-name">message</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">      </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">      </tt>
+<a name="ResponseHandler.matchResp"></a><div id="ResponseHandler.matchResp-def"><a name="L58"></a><tt class="py-lineno">58</tt> <a class="py-toggle" href="#" id="ResponseHandler.matchResp-toggle" onclick="return toggle('ResponseHandler.matchResp');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#matchResp">matchResp</a> <tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">response</tt><tt class="py-op">,</tt> <tt class="py-param">respId</tt><tt class="py-op">,</tt> <tt class="py-param">feedType</tt><tt class="py-op">,</tt> <tt class="py-param">i</tt><tt class="py-op">,</tt> <tt class="py-param">action</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ResponseHandler.matchResp-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="ResponseHandler.matchResp-expanded"><a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">        <tt class="py-docstring">''' compile a list of warnings that are at the "Reject" level.</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line"><tt class="py-docstring">        If warnings for the matching respID, proceed to update data'''</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">         </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">        <tt class="py-name">warnings</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">resp</tt> <tt class="py-keyword">in</tt> <tt id="link-7" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.response()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager-class.html#response"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.response" class="py-name" href="#" onclick="return doclink('link-7', 'response', 'link-7');">response</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">resp</tt><tt class="py-op">.</tt><tt class="py-name">meta</tt><tt class="py-op">.</tt><tt class="py-name">_requestId</tt> <tt class="py-op">==</tt> <tt class="py-name">respId</tt><tt class="py-op">:</tt>   </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">                <tt class="py-comment">#logging</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">                <tt id="link-8" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.uilog" class="py-name" href="#" onclick="return doclink('link-8', 'uilog', 'link-0');">uilog</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">' *** DATA ***    response received from DM for respId: {0} of type: {1} after {2} seconds'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">respId</tt><tt class="py-op">,</tt> <tt class="py-name">feedType</tt><tt class="py-op">,</tt> <tt class="py-name">i</tt><tt class="py-op">)</tt><tt class="py-op">)</tt>     </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">                <tt class="py-comment"># hack to meet first testing release -- Review</tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">resp</tt><tt class="py-op">.</tt><tt class="py-name">meta</tt><tt class="py-op">.</tt><tt class="py-name">_errors</tt><tt class="py-op">[</tt><tt class="py-string">'critical'</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.displayWarnings()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#displayWarnings"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.displayWarnings" class="py-name" href="#" onclick="return doclink('link-9', 'displayWarnings', 'link-9');">displayWarnings</a></tt><tt class="py-op">(</tt><tt class="py-name">resp</tt><tt class="py-op">.</tt><tt class="py-name">meta</tt><tt class="py-op">.</tt><tt class="py-name">errors</tt><tt class="py-op">[</tt><tt class="py-string">'critical'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">resp</tt><tt class="py-op">.</tt><tt class="py-name">meta</tt><tt class="py-op">.</tt><tt class="py-name">_errors</tt><tt class="py-op">[</tt><tt class="py-string">'error'</tt><tt class="py-op">]</tt> <tt class="py-keyword">and</tt> <tt class="py-name">resp</tt><tt class="py-op">.</tt><tt class="py-name">_queueStatus</tt> <tt class="py-op">==</tt> <tt class="py-string">'Accepted'</tt><tt class="py-op">:</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.displayWarnings" class="py-name" href="#" onclick="return doclink('link-10', 'displayWarnings', 'link-9');">displayWarnings</a></tt><tt class="py-op">(</tt><tt class="py-name">resp</tt><tt class="py-op">.</tt><tt class="py-name">meta</tt><tt class="py-op">.</tt><tt class="py-name">errors</tt><tt class="py-op">[</tt><tt class="py-string">'error'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">         </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt>                    </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line">                <tt class="py-comment"># else captured resp and no critical warnings</tt> </tt>
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line">                <tt class="py-comment"># precede to update self._data</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.updateData()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#updateData"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.updateData" class="py-name" href="#" onclick="return doclink('link-11', 'updateData', 'link-11');">updateData</a></tt><tt class="py-op">(</tt><tt class="py-name">resp</tt><tt class="py-op">,</tt> <tt class="py-name">feedType</tt><tt class="py-op">,</tt> <tt class="py-name">action</tt><tt class="py-op">)</tt> </tt>
+<a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line">                    <tt class="py-comment"># return resp     </tt> </tt>
+<a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line">                          </tt>
+<a name="ResponseHandler.handleResp"></a><div id="ResponseHandler.handleResp-def"><a name="L82"></a><tt class="py-lineno">82</tt> <a class="py-toggle" href="#" id="ResponseHandler.handleResp-toggle" onclick="return toggle('ResponseHandler.handleResp');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#handleResp">handleResp</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">respId</tt><tt class="py-op">,</tt> <tt class="py-param">feedType</tt><tt class="py-op">,</tt> <tt class="py-param">action</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ResponseHandler.handleResp-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="ResponseHandler.handleResp-expanded"><a name="L83"></a><tt class="py-lineno">83</tt>  <tt class="py-line">        <tt class="py-docstring">''' test for a response in the response</tt> </tt>
+<a name="L84"></a><tt class="py-lineno">84</tt>  <tt class="py-line"><tt class="py-docstring">            queue with the relevant repId'''</tt> </tt>
+<a name="L85"></a><tt class="py-lineno">85</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-number">20</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L86"></a><tt class="py-lineno">86</tt>  <tt class="py-line">            <tt class="py-name">time</tt><tt class="py-op">.</tt><tt class="py-name">sleep</tt><tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno">87</tt>  <tt class="py-line">            <tt class="py-name">resp</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">uidm</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.response" class="py-name" href="#" onclick="return doclink('link-12', 'response', 'link-7');">response</a></tt><tt class="py-op">(</tt><tt class="py-name">feedType</tt><tt class="py-op">)</tt> </tt>
+<a name="L88"></a><tt class="py-lineno">88</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">resp</tt> <tt class="py-keyword">and</tt> <tt class="py-name">resp</tt> <tt class="py-op">!=</tt> <tt class="py-op">(</tt><tt class="py-name">None</tt><tt class="py-op">,</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> <tt class="py-comment"># found and processed response</tt> </tt>
+<a name="L89"></a><tt class="py-lineno">89</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.matchResp()=AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler-class.html#matchResp"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.matchResp" class="py-name" href="#" onclick="return doclink('link-13', 'matchResp', 'link-13');">matchResp</a></tt><tt class="py-op">(</tt><tt class="py-name">resp</tt><tt class="py-op">,</tt> <tt class="py-name">respId</tt><tt class="py-op">,</tt> <tt class="py-name">feedType</tt><tt class="py-op">,</tt> <tt class="py-name">i</tt><tt class="py-op">,</tt> <tt class="py-name">action</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L90"></a><tt class="py-lineno">90</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt>                                                  </tt>
+<a name="L91"></a><tt class="py-lineno">91</tt>  <tt class="py-line">        <tt class="py-comment">#logging </tt> </tt>
+<a name="L92"></a><tt class="py-lineno">92</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">_iface</tt><tt class="py-op">.</tt><tt class="py-name">messageBar</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">pushMessage</tt><tt class="py-op">(</tt><tt class="py-string">"Incomplete Response"</tt><tt class="py-op">,</tt> <tt class="py-string">"Layer data may not be complete"</tt><tt class="py-op">,</tt> <tt class="py-name">level</tt><tt class="py-op">=</tt><tt class="py-name">QgsMessageBar</tt><tt class="py-op">.</tt><tt class="py-name">WARNING</tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno">93</tt>  <tt class="py-line">        <tt id="link-14" class="py-name"><a title="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.Controller.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ResponseHandler.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.ReviewQueueWidget.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiDataManager.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.UiUtility.uilog
+AIMS_Plugin_threaded.AimsUI.AimsClient.Gui.UiUtility.uilog" class="py-name" href="#" onclick="return doclink('link-14', 'uilog', 'link-0');">uilog</a></tt><tt class="py-op">.</tt><tt class="py-name">info</tt><tt class="py-op">(</tt><tt class="py-string">' *** DATA ***    Time Out ({0} seconds): No response received from DM for respId: {1} of feedtype: {2}'</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">,</tt> <tt class="py-name">respId</tt><tt class="py-op">,</tt> <tt class="py-name">feedType</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L94"></a><tt class="py-lineno">94</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="AIMS_Plugin_threaded.AimsUI.AimsClient.Gui-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Jun  8 14:11:35 2016
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
